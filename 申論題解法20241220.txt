@@ -1,0 +1,333 @@
+申論題  20241220
+
+---------------------------------------------------------------------------------------------------
+類比訊號與數位訊號
+
+類比訊號與數位訊號是兩種常見的訊號類型，它們在許多領域中都有應用，從音訊處理到無線通訊等。
+
+1. 類比訊號 (Analog Signal)
+
+類比訊號是指連續變化的訊號，通常以波形的形式來表示。
+它的數值範圍不斷變化，並且能夠呈現出無限多的訊號狀態。
+
+    特性：
+        連續性：訊號的幅度可以在某一範圍內連續變化。
+        實例：聲音波、光波、電壓等。
+
+    應用範圍：傳統的電視、廣播、聲音系統中，許多傳感器的輸出也是類比訊號。
+
+2. 數位訊號 (Digital Signal)
+
+數位訊號則是離散的訊號，通常以二進位（0或1）的形式來表示。數位訊號只能在某些特定的離散數值上變化，
+通常會以"高"和"低"狀態表示。
+
+    特性：
+        離散性：訊號只有有限的狀態變化，通常是二進制的。
+        實例：數位音訊（如MP3）、電腦數據。
+
+    應用範圍：計算機系統、數位音訊處理、無線數位通訊等。
+
+類比訊號與數位訊號的轉換
+
+在很多情況下，類比訊號和數位訊號之間需要進行轉換。
+這通常需要使用模數轉換器（ADC，Analog-to-Digital Converter）和數模轉換器（DAC，Digital-to-Analog Converter）。
+
+    模數轉換：將連續變化的類比訊號轉換為離散的數位訊號。
+    數模轉換：將離散的數位訊號轉換回連續的類比訊號。
+
+程式寫法範例
+
+以下是一個簡單的範例，使用Python來模擬類比訊號到數位訊號的轉換過程。
+程式設計：將類比訊號轉換為數位訊號
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 類比訊號生成
+def analog_signal(t):
+    return np.sin(2 * np.pi * 1 * t)  # 1Hz的正弦波
+
+# 設定時間範圍
+t = np.linspace(0, 1, 1000)  # 1秒鐘內，分成1000個點
+
+# 類比訊號
+analog = analog_signal(t)
+
+# 模擬數位訊號（取樣）
+sampling_rate = 100  # 每秒取樣100次
+sampled_times = np.arange(0, 1, 1/sampling_rate)  # 取樣點的時間
+sampled_values = analog_signal(sampled_times)  # 取樣的訊號值
+
+# 繪圖
+plt.figure(figsize=(10, 6))
+plt.plot(t, analog, label="Analog Signal", linewidth=2)
+plt.stem(sampled_times, sampled_values, 'r', markerfmt='ro', basefmt=" ", label="Sampled Signal")
+plt.title("Analog Signal and Sampled Digital Signal")
+plt.xlabel("Time (s)")
+plt.ylabel("Amplitude")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+解釋：
+
+    analog_signal(t)：定義一個類比訊號（這裡使用正弦波作為例子），這個訊號是連續的。
+    sampled_times：根據取樣率來決定數位訊號的取樣點。這裡取樣率設定為100Hz，意味著每秒取樣100個點。
+    plt.plot()：用來繪製連續的類比訊號。
+    plt.stem()：用來顯示離散取樣的數位訊號，這些點表示數位訊號的取樣結果。
+
+輸出：
+
+    顯示一個正弦波的類比訊號，以及根據指定的取樣率（100Hz）抽取的數位訊號點。
+
+類比訊號與數位訊號的主要區別：
+特性		類比訊號 (Analog)					數位訊號 (Digital)
+連續性		連續變化的訊號						離散的訊號（通常是0和1）
+儲存和處理	較難儲存和處理，會受到噪聲干擾		易於儲存、處理和傳輸
+優點		高保真度，可表示無限多的訊號狀態	穩定性高，對噪聲較不敏感
+應用領域	音頻、視頻、聲音、光波等			計算機、通信、數位音訊等
+
+
+結論
+
+類比訊號和數位訊號各有其優勢和適用場景。類比訊號通常用於需要高精度、連續性的情況，
+而數位訊號則因為其處理、儲存和傳輸的高效性，在現代科技中佔有重要地位。
+
+
+---------------------------------------------------------------------------------------
+在許多程式語言中，try-catch 機制用於捕獲並處理異常（錯誤）。
+除了處理原生異常（如語言內建的錯誤），還可以進行自訂異常的處理。
+自訂異常處理通常涉及拋出自定義的錯誤訊息或類別，並進行特定的錯誤處理邏輯。
+
+以下是如何在各種程式語言中進行原生異常處理和自訂異常處理的範例。
+1. Python：try-except（原生與自訂異常處理）
+原生異常處理：
+
+try:
+    x = 10 / 0
+except ZeroDivisionError:
+    print("錯誤：不能除以零！")
+
+自訂異常處理：
+
+在 Python 中，可以透過自訂異常類別來定義自己的錯誤類型。
+
+class CustomError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+try:
+    raise CustomError("這是自訂的錯誤訊息")
+except CustomError as e:
+    print(f"捕獲自訂錯誤：{e}")
+
+解釋：
+
+    ZeroDivisionError 是 Python 原生的異常。
+    CustomError 是自訂的異常類別，繼承自 Exception 類別，並定義了錯誤訊息。
+
+2. JavaScript：try-catch（原生與自訂異常處理）
+原生異常處理：
+
+try {
+    let num = 10 / 0;
+} catch (error) {
+    console.log("錯誤：" + error.message);
+}
+
+自訂異常處理：
+
+在 JavaScript 中，使用 throw 關鍵字來拋出自訂的錯誤。
+
+class CustomError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "CustomError";
+    }
+}
+
+try {
+    throw new CustomError("這是自訂的錯誤訊息");
+} catch (error) {
+    console.log(`捕獲自訂錯誤：${error.name} - ${error.message}`);
+}
+
+解釋：
+
+    原生異常是 JavaScript 自帶的錯誤，例如 ZeroDivisionError（實際上 JavaScript 不會拋出這種錯誤）。
+    CustomError 是自訂錯誤，繼承自 Error 類別，並提供錯誤訊息。
+
+3. Java：try-catch（原生與自訂異常處理）
+原生異常處理：
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            int num = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("錯誤：不能除以零！");
+        }
+    }
+}
+
+自訂異常處理：
+
+在 Java 中，你可以創建自定義的異常類別，並在 try-catch 中捕獲。
+
+class CustomError extends Exception {
+    public CustomError(String message) {
+        super(message);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            throw new CustomError("這是自訂的錯誤訊息");
+        } catch (CustomError e) {
+            System.out.println("捕獲自訂錯誤：" + e.getMessage());
+        }
+    }
+}
+
+解釋：
+
+    ArithmeticException 是 Java 原生的異常類型，用於處理算術錯誤。
+    CustomError 是自訂的異常類別，繼承自 Exception 類別。
+
+4. C#：try-catch（原生與自訂異常處理）
+原生異常處理：
+
+using System;
+
+class Program {
+    static void Main() {
+        try {
+            int num = 10 / 0;
+        } catch (DivideByZeroException e) {
+            Console.WriteLine("錯誤：不能除以零！");
+        }
+    }
+}
+
+自訂異常處理：
+
+using System;
+
+class CustomError : Exception {
+    public CustomError(string message) : base(message) { }
+}
+
+class Program {
+    static void Main() {
+        try {
+            throw new CustomError("這是自訂的錯誤訊息");
+        } catch (CustomError e) {
+            Console.WriteLine("捕獲自訂錯誤：" + e.Message);
+        }
+    }
+}
+
+解釋：
+
+    DivideByZeroException 是 C# 中的原生異常，專門處理除以零的情況。
+    CustomError 是自訂的異常類別，繼承自 Exception 類別。
+
+5. PHP：try-catch（原生與自訂異常處理）
+原生異常處理：
+
+<?php
+try {
+    $num = 10 / 0;
+} catch (DivisionByZeroError $e) {
+    echo "錯誤：不能除以零！";
+}
+?>
+
+自訂異常處理：
+
+<?php
+class CustomError extends Exception {}
+
+try {
+    throw new CustomError("這是自訂的錯誤訊息");
+} catch (CustomError $e) {
+    echo "捕獲自訂錯誤：" . $e->getMessage();
+}
+?>
+
+解釋：
+
+    DivisionByZeroError 是 PHP 中用於處理除以零的錯誤。
+    CustomError 是自訂的錯誤類別，繼承自 Exception 類別。
+
+6. Ruby：begin-rescue（原生與自訂異常處理）
+原生異常處理：
+
+begin
+  10 / 0
+rescue ZeroDivisionError => e
+  puts "錯誤：不能除以零！"
+end
+
+自訂異常處理：
+
+class CustomError < StandardError
+end
+
+begin
+  raise CustomError, "這是自訂的錯誤訊息"
+rescue CustomError => e
+  puts "捕獲自訂錯誤：#{e.message}"
+end
+
+解釋：
+
+    ZeroDivisionError 是 Ruby 中的原生異常。
+    CustomError 是自訂的錯誤類別，繼承自 StandardError 類別。
+
+7. Swift：do-catch（原生與自訂異常處理）
+原生異常處理：
+
+do {
+    let result = try divide(10, by: 0)
+} catch {
+    print("錯誤：不能除以零！")
+}
+
+func divide(_ a: Int, by b: Int) throws -> Int {
+    if b == 0 {
+        throw NSError(domain: "DivideByZero", code: 1, userInfo: nil)
+    }
+    return a / b
+}
+
+自訂異常處理：
+
+enum CustomError: Error {
+    case invalidInput
+}
+
+do {
+    throw CustomError.invalidInput
+} catch CustomError.invalidInput {
+    print("捕獲自訂錯誤：無效的輸入")
+} catch {
+    print("捕獲其他錯誤：\(error)")
+}
+
+解釋：
+
+    NSError 用於處理原生異常。
+    CustomError 是一個自訂的錯誤類型，透過 enum 定義，並使用 Error 協定來標記。
+
+總結
+
+    原生異常處理：通常是程式語言內建的一些錯誤類型，這些錯誤通常與語言的語法、
+	邏輯或執行過程有關（例如除以零、數據格式錯誤等）。
+    自訂異常處理：你可以根據具體的需求，定義自訂的錯誤類型並在程式中進行處理。
+	這樣能提供更多的錯誤上下文，並使錯誤處理更加靈活。
+
+不同語言的異常處理機制略有差異，但基本原則是一致的，即通過 try-catch 或相似結構來捕獲和處理錯誤，
+並且可以定義自訂的錯誤類型來提升錯誤處理的可擴展性與靈活性。
